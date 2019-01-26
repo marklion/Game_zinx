@@ -11,6 +11,8 @@
 
 using namespace std;
 
+default_random_engine PlayerRole::e(time(NULL));
+
 class Proc0Msg:public IIdMsgProc{
     virtual bool ProcMsg(IdMsgRole * _pxRole, IdMessage * _pxMsg)
     {
@@ -22,7 +24,6 @@ class Proc0Msg:public IIdMsgProc{
 
 PlayerRole::PlayerRole()
 {
-	default_random_engine e(time(NULL));
 	x = e() % 10 + 160;
 	z = e() % 17 + 134;
 }

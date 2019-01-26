@@ -3,11 +3,13 @@
 
 #include "zinx.h"
 
+#include <random>
 class Grid;
 class PlayerRole:public IdMsgRole{
 private:
     void ViewsLost(Grid *_pxGrid);
     void ViewsAppear(Grid *_pxGrid);
+    static std::default_random_engine e;
 public:
     PlayerRole();
     virtual bool init();
