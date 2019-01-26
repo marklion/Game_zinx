@@ -1,0 +1,7 @@
+aux_source_directory(. DIR_SRCS)
+aux_source_directory(./channel SUB_DIR_CHANNEL_SRCS)
+aux_source_directory(./message SUB_DIR_MESSAGE_SRCS)
+aux_source_directory(./protocol SUB_DIR_PROTOCOL_SRCS)
+aux_source_directory(./role SUB_DIR_ROLE_SRCS)
+SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+add_library(zinx ${DIR_SRCS} ${SUB_DIR_CHANNEL_SRCS} ${SUB_DIR_MESSAGE_SRCS} ${SUB_DIR_PROTOCOL_SRCS} ${SUB_DIR_ROLE_SRCS})

@@ -1,0 +1,7 @@
+#include "channel/Achannel.h"
+#include "protocol/Aprotocol.h"
+#include "role/Arole.h"
+#include "message/Amessage.h"
+#include "Server.h"
+#include "channel/TcpChannel.h"
+#include "role/IdMsgRole.h"
