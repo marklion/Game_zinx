@@ -38,7 +38,7 @@ public:
     }
     int gridLength()
     {
-        return (MaxY * MinY) / CntsY;
+        return (MaxY - MinY) / CntsY;
     }
     void GetSurroundingGridsByGid(int _gid, list<Grid *> &grids);
     int GetGidbyPos(int x, int y);

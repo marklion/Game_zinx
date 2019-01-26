@@ -16,7 +16,6 @@ default_random_engine PlayerRole::e(time(NULL));
 class Proc0Msg:public IIdMsgProc{
     virtual bool ProcMsg(IdMsgRole * _pxRole, IdMessage * _pxMsg)
     {
-        std::cout<<"proc 0 Msg"<<std::endl;
 
         return true;
     }
@@ -47,7 +46,7 @@ class Proc3Msg:public IIdMsgProc{
         pb::Position *pxPosPkg = dynamic_cast<pb::Position *>(pxMsg->pxProtobufMsg);
 
         PlayerRole *pxPlayer = dynamic_cast<PlayerRole *>(_pxRole);
-        pxPlayer->UpdatePos((int)(pxPosPkg->x()), (int)(pxPosPkg->y()), (int)(pxPosPkg->z()), (int)(pxPosPkg->v()));
+        pxPlayer->UpdatePos(pxPosPkg->x(), pxPosPkg->y(), pxPosPkg->z(), pxPosPkg->v());
 
         return true;
     }
@@ -61,7 +60,7 @@ bool PlayerRole::init()
     bRet |= register_id_func(2, new Proc2Msg());
     if (true == bRet)
     {
-        AOIMgr::GetAOIMgr()->Add2GridByPos(this, this->x, this->z);
+        AOIMgr::GetAOIMgr()->Add2GridByPos(this, (int)x, (int)z);
         bRet = SyncId();
         bRet |= SyncSurrounding(); 
     }
@@ -76,10 +75,10 @@ bool PlayerRole::SyncSurrounding()
     pxSyncSelf->set_pid(iPid);
     pxSyncSelf->set_tp(2);
     pb::Position *p = pxSyncSelf->mutable_p();
-    p->set_x((float)(x));
-    p->set_y((float)(y));
-    p->set_z((float)(z));
-    p->set_v((float)(v));
+    p->set_x(x);
+    p->set_y(y);
+    p->set_z(z);
+    p->set_v(v);
 
     PlayerMsg *pxSyncSelfMsg = new PlayerMsg(200);
     pxSyncSelfMsg->pxProtobufMsg = pxSyncSelf;
@@ -99,10 +98,10 @@ bool PlayerRole::SyncSurrounding()
         pb::Player *pxSurPlayer = pxSyncPlayers->add_ps();
         pxSurPlayer->set_pid(pxPlayer->iPid);
         pb::Position *p = pxSurPlayer->mutable_p();
-        p->set_x((float)(pxPlayer->x));
-        p->set_y((float)(pxPlayer->y));
-        p->set_z((float)(pxPlayer->z));
-        p->set_v((float)(pxPlayer->v));
+        p->set_x(pxPlayer->x);
+        p->set_y(pxPlayer->y);
+        p->set_z(pxPlayer->z);
+        p->set_v(pxPlayer->v);
 
     }
     PlayerMsg *pxSurPlayerMsg = new PlayerMsg(202);
@@ -117,7 +116,7 @@ bool PlayerRole::SyncSurrounding()
 
 void PlayerRole::GetSurroundingPlayers(std::list<PlayerRole *> &_players)
 {
-    AOIMgr::GetAOIMgr()->GetPlayersByPos(x, y, _players);
+    AOIMgr::GetAOIMgr()->GetPlayersByPos((int)x, (int)z, _players);
 }
 
 bool PlayerRole::SyncId()
@@ -154,7 +153,7 @@ void PlayerRole::fini()
         Server::GetServer()->send_resp(&stResp);
     }
     
-    AOIMgr::GetAOIMgr()->RemoveFromGridByPos(this, x, z);
+    AOIMgr::GetAOIMgr()->RemoveFromGridByPos(this, (int)x, (int)z);
 }
 
 void PlayerRole::OnExchangeAioGrid(int _oldGid, int _newGid)
@@ -165,6 +164,7 @@ void PlayerRole::OnExchangeAioGrid(int _oldGid, int _newGid)
     AOIMgr::GetAOIMgr()->GetSurroundingGridsByGid(_oldGid, OldGrids);    
     AOIMgr::GetAOIMgr()->GetSurroundingGridsByGid(_newGid, NewGrids);
 
+    cout<<"old grids:";
     for (auto itr = OldGrids.begin(); itr != OldGrids.end(); itr++)
     {
         Grid *pxGrid = (*itr);
@@ -175,7 +175,10 @@ void PlayerRole::OnExchangeAioGrid(int _oldGid, int _newGid)
         {
             ViewsLost(pxGrid);
         }
+        cout <<pxGrid->Gid<<" ";
     }
+    cout<<endl;
+    cout<<"new grids:";
     for (auto itr = NewGrids.begin(); itr != NewGrids.end(); itr++)
     {
         Grid *pxGrid = (*itr);
@@ -185,7 +188,9 @@ void PlayerRole::OnExchangeAioGrid(int _oldGid, int _newGid)
         {
             ViewsAppear(pxGrid);
         }
+        cout <<pxGrid->Gid<<" ";
     }
+    cout<<endl;
 }
 
 void PlayerRole::ViewsLost(Grid * _pxGrid)
@@ -220,10 +225,10 @@ void PlayerRole::ViewsLost(Grid * _pxGrid)
 void PlayerRole::ViewsAppear(Grid * _pxGrid)
 {
     pb::Position *pxSelfPos = new pb::Position();
-    pxSelfPos->set_x((float)x);
-    pxSelfPos->set_y((float)y);
-    pxSelfPos->set_z((float)z);
-    pxSelfPos->set_v((float)v);
+    pxSelfPos->set_x(x);
+    pxSelfPos->set_y(y);
+    pxSelfPos->set_z(z);
+    pxSelfPos->set_v(v);
     pb::BroadCast *pxSelfBroad = new pb::BroadCast();
     pxSelfBroad->set_allocated_p(pxSelfPos);
     pxSelfBroad->set_pid(iPid);
@@ -242,10 +247,10 @@ void PlayerRole::ViewsAppear(Grid * _pxGrid)
         Server::GetServer()->send_resp(&stResp2Others);
 
         pb::Position *pxOtherPos = new pb::Position();
-        pxOtherPos->set_x((float)(pxOtherPlayer->x));
-        pxOtherPos->set_y((float)(pxOtherPlayer->y));
-        pxOtherPos->set_z((float)(pxOtherPlayer->z));
-        pxOtherPos->set_v((float)(pxOtherPlayer->v));
+        pxOtherPos->set_x(pxOtherPlayer->x);
+        pxOtherPos->set_y(pxOtherPlayer->y);
+        pxOtherPos->set_z(pxOtherPlayer->z);
+        pxOtherPos->set_v(pxOtherPlayer->v);
         pb::BroadCast *pxOtherBroad = new pb::BroadCast();
         pxOtherBroad->set_allocated_p(pxOtherPos);
         pxOtherBroad->set_pid(pxOtherPlayer->iPid);
@@ -256,23 +261,23 @@ void PlayerRole::ViewsAppear(Grid * _pxGrid)
 
         Response stResp2Self;
         stResp2Self.pxMsg = pxOtherMsg;
-        stResp2Self.pxSender = pxOtherPlayer;
+        stResp2Self.pxSender = this;
 
         Server::GetServer()->send_resp(&stResp2Self);
     }
 }
 
-void PlayerRole::UpdatePos(int _x, int _y, int _z, int _v)
+void PlayerRole::UpdatePos(float _x, float _y, float _z, float _v)
 {
-    int oldGid = AOIMgr::GetAOIMgr()->GetGidbyPos(x, y);
-    int newGid = AOIMgr::GetAOIMgr()->GetGidbyPos(x, y);
+    int oldGid = AOIMgr::GetAOIMgr()->GetGidbyPos((int)x, (int)z);
+    int newGid = AOIMgr::GetAOIMgr()->GetGidbyPos((int)_x, (int)_z);
 
     x = _x;
     y = _y;
     z = _z;
     v = _v;
 
-    cout<<"Update Pos"<<" x="<<x<<" y="<<y<<" z="<<z<<" v="<<v<<endl;
+    cout<<"Update Pos"<<" x="<<x<<" y="<<y<<" z="<<z<<" v="<<v<<" oldGid="<<oldGid<<" newGid="<<newGid<<endl;
 
     if (oldGid != newGid)
     {
@@ -282,10 +287,10 @@ void PlayerRole::UpdatePos(int _x, int _y, int _z, int _v)
     }
 
     pb::Position *pxSelfPos = new pb::Position();
-    pxSelfPos->set_x((float)x);
-    pxSelfPos->set_y((float)y);
-    pxSelfPos->set_z((float)z);
-    pxSelfPos->set_v((float)v);
+    pxSelfPos->set_x(x);
+    pxSelfPos->set_y(y);
+    pxSelfPos->set_z(z);
+    pxSelfPos->set_v(v);
     pb::BroadCast *pxSelfBroad = new pb::BroadCast;
     pxSelfBroad->set_pid(iPid);
     pxSelfBroad->set_tp(4);

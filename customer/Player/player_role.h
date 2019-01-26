@@ -15,16 +15,16 @@ public:
     virtual bool init();
     virtual void fini();
     int iPid = 0;
-    int x = 0;
-    int y = 0;
-    int z = 0;
-    int v = 0;
+    float x = 0;
+    float y = 0;
+    float z = 0;
+    float v = 0;
 
     bool SyncSurrounding();
     void GetSurroundingPlayers(std::list<PlayerRole *> &_players);
     bool SyncId();
     void OnExchangeAioGrid(int _oldGid, int _newGid);
-    void UpdatePos(int _x, int _y, int _z, int _v);
+    void UpdatePos(float _x, float _y, float _z, float _v);
     void Talk(const std::string &szContent);
 };
 

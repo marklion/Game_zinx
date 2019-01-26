@@ -40,6 +40,16 @@ void AOIMgr::GetSurroundingGridsByGid(int _gid, list<Grid *> &outgrids)
 
     outgrids.push_back(m_grids[_gid]);
 
+    int y = _gid / CntsX;
+    if (y > 0)
+    {
+        outgrids.push_back(m_grids[_gid - CntsX]);
+    }
+    if (y < (CntsY - 1))
+    {
+        outgrids.push_back(m_grids[_gid + CntsX]);
+    }
+    
     int x = _gid % CntsX;
     if (x > 0)
     {
