@@ -49,7 +49,7 @@ bool TcpListenChannel::writeFd(const RawData * pstData)
 
 bool TcpListenChannel::init()
 {
-    bool bRet = true;
+    bool bRet = false;
     int iListenFd = -1;
     struct sockaddr_in stServaddr;
 

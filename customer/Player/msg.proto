@@ -4,6 +4,7 @@ option csharp_namespace="Pb";
 
 message SyncPid{
 	int32 Pid=1;
+	string Username=2;
 }
 
 message Player{
@@ -20,6 +21,7 @@ message Position{
 	float Y=2;
 	float Z=3;
 	float V=4;
+	int32 BloodValue=5;
 }
 
 message MovePackege{

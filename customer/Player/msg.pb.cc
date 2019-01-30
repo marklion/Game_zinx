@@ -185,6 +185,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::SyncPid, pid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::SyncPid, username_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::Player, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -207,6 +208,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::Position, y_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::Position, z_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::Position, v_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::Position, bloodvalue_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::pb::MovePackege, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -234,12 +236,12 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::pb::SyncPid)},
-  { 6, -1, sizeof(::pb::Player)},
-  { 13, -1, sizeof(::pb::SyncPlayers)},
-  { 19, -1, sizeof(::pb::Position)},
-  { 28, -1, sizeof(::pb::MovePackege)},
-  { 35, -1, sizeof(::pb::BroadCast)},
-  { 46, -1, sizeof(::pb::Talk)},
+  { 7, -1, sizeof(::pb::Player)},
+  { 14, -1, sizeof(::pb::SyncPlayers)},
+  { 20, -1, sizeof(::pb::Position)},
+  { 30, -1, sizeof(::pb::MovePackege)},
+  { 37, -1, sizeof(::pb::BroadCast)},
+  { 48, -1, sizeof(::pb::Talk)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -273,19 +275,20 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\tmsg.proto\022\002pb\"\026\n\007SyncPid\022\013\n\003Pid\030\001 \001(\005\""
-      ".\n\006Player\022\013\n\003Pid\030\001 \001(\005\022\027\n\001P\030\002 \001(\0132\014.pb.P"
-      "osition\"%\n\013SyncPlayers\022\026\n\002ps\030\001 \003(\0132\n.pb."
-      "Player\"6\n\010Position\022\t\n\001X\030\001 \001(\002\022\t\n\001Y\030\002 \001(\002"
-      "\022\t\n\001Z\030\003 \001(\002\022\t\n\001V\030\004 \001(\002\":\n\013MovePackege\022\027\n"
-      "\001P\030\001 \001(\0132\014.pb.Position\022\022\n\nActionData\030\002 \001"
-      "(\005\"p\n\tBroadCast\022\013\n\003Pid\030\001 \001(\005\022\n\n\002Tp\030\002 \001(\005"
-      "\022\021\n\007Content\030\003 \001(\tH\000\022\031\n\001P\030\004 \001(\0132\014.pb.Posi"
-      "tionH\000\022\024\n\nActionData\030\005 \001(\005H\000B\006\n\004Data\"\027\n\004"
-      "Talk\022\017\n\007Content\030\001 \001(\tB\005\252\002\002Pbb\006proto3"
+      "\n\tmsg.proto\022\002pb\"(\n\007SyncPid\022\013\n\003Pid\030\001 \001(\005\022"
+      "\020\n\010Username\030\002 \001(\t\".\n\006Player\022\013\n\003Pid\030\001 \001(\005"
+      "\022\027\n\001P\030\002 \001(\0132\014.pb.Position\"%\n\013SyncPlayers"
+      "\022\026\n\002ps\030\001 \003(\0132\n.pb.Player\"J\n\010Position\022\t\n\001"
+      "X\030\001 \001(\002\022\t\n\001Y\030\002 \001(\002\022\t\n\001Z\030\003 \001(\002\022\t\n\001V\030\004 \001(\002"
+      "\022\022\n\nBloodValue\030\005 \001(\005\":\n\013MovePackege\022\027\n\001P"
+      "\030\001 \001(\0132\014.pb.Position\022\022\n\nActionData\030\002 \001(\005"
+      "\"p\n\tBroadCast\022\013\n\003Pid\030\001 \001(\005\022\n\n\002Tp\030\002 \001(\005\022\021"
+      "\n\007Content\030\003 \001(\tH\000\022\031\n\001P\030\004 \001(\0132\014.pb.Positi"
+      "onH\000\022\024\n\nActionData\030\005 \001(\005H\000B\006\n\004Data\"\027\n\004Ta"
+      "lk\022\017\n\007Content\030\001 \001(\tB\005\252\002\002Pbb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 396);
+      descriptor, 434);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "msg.proto", &protobuf_RegisterTypes);
 }
@@ -309,6 +312,7 @@ void SyncPid::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int SyncPid::kPidFieldNumber;
+const int SyncPid::kUsernameFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 SyncPid::SyncPid()
@@ -322,11 +326,16 @@ SyncPid::SyncPid(const SyncPid& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
+  username_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.username().size() > 0) {
+    username_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.username_);
+  }
   pid_ = from.pid_;
   // @@protoc_insertion_point(copy_constructor:pb.SyncPid)
 }
 
 void SyncPid::SharedCtor() {
+  username_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   pid_ = 0;
 }
 
@@ -336,6 +345,7 @@ SyncPid::~SyncPid() {
 }
 
 void SyncPid::SharedDtor() {
+  username_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void SyncPid::SetCachedSize(int size) const {
@@ -358,6 +368,7 @@ void SyncPid::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  username_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   pid_ = 0;
   _internal_metadata_.Clear();
 }
@@ -380,6 +391,22 @@ bool SyncPid::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &pid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string Username = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_username()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->username().data(), static_cast<int>(this->username().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "pb.SyncPid.Username"));
         } else {
           goto handle_unusual;
         }
@@ -417,6 +444,16 @@ void SyncPid::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->pid(), output);
   }
 
+  // string Username = 2;
+  if (this->username().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->username().data(), static_cast<int>(this->username().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "pb.SyncPid.Username");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->username(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -436,6 +473,17 @@ void SyncPid::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->pid(), target);
   }
 
+  // string Username = 2;
+  if (this->username().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->username().data(), static_cast<int>(this->username().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "pb.SyncPid.Username");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        2, this->username(), target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -453,6 +501,13 @@ size_t SyncPid::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
+  // string Username = 2;
+  if (this->username().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->username());
+  }
+
   // int32 Pid = 1;
   if (this->pid() != 0) {
     total_size += 1 +
@@ -487,6 +542,10 @@ void SyncPid::MergeFrom(const SyncPid& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.username().size() > 0) {
+
+    username_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.username_);
+  }
   if (from.pid() != 0) {
     set_pid(from.pid());
   }
@@ -516,6 +575,8 @@ void SyncPid::Swap(SyncPid* other) {
 }
 void SyncPid::InternalSwap(SyncPid* other) {
   using std::swap;
+  username_.Swap(&other->username_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
   swap(pid_, other->pid_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
@@ -1038,6 +1099,7 @@ const int Position::kXFieldNumber;
 const int Position::kYFieldNumber;
 const int Position::kZFieldNumber;
 const int Position::kVFieldNumber;
+const int Position::kBloodValueFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Position::Position()
@@ -1052,15 +1114,15 @@ Position::Position(const Position& from)
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&x_, &from.x_,
-    static_cast<size_t>(reinterpret_cast<char*>(&v_) -
-    reinterpret_cast<char*>(&x_)) + sizeof(v_));
+    static_cast<size_t>(reinterpret_cast<char*>(&bloodvalue_) -
+    reinterpret_cast<char*>(&x_)) + sizeof(bloodvalue_));
   // @@protoc_insertion_point(copy_constructor:pb.Position)
 }
 
 void Position::SharedCtor() {
   ::memset(&x_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&v_) -
-      reinterpret_cast<char*>(&x_)) + sizeof(v_));
+      reinterpret_cast<char*>(&bloodvalue_) -
+      reinterpret_cast<char*>(&x_)) + sizeof(bloodvalue_));
 }
 
 Position::~Position() {
@@ -1092,8 +1154,8 @@ void Position::Clear() {
   (void) cached_has_bits;
 
   ::memset(&x_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&v_) -
-      reinterpret_cast<char*>(&x_)) + sizeof(v_));
+      reinterpret_cast<char*>(&bloodvalue_) -
+      reinterpret_cast<char*>(&x_)) + sizeof(bloodvalue_));
   _internal_metadata_.Clear();
 }
 
@@ -1163,6 +1225,20 @@ bool Position::MergePartialFromCodedStream(
         break;
       }
 
+      // int32 BloodValue = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &bloodvalue_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -1209,6 +1285,11 @@ void Position::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteFloat(4, this->v(), output);
   }
 
+  // int32 BloodValue = 5;
+  if (this->bloodvalue() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->bloodvalue(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -1241,6 +1322,11 @@ void Position::SerializeWithCachedSizes(
   // float V = 4;
   if (this->v() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(4, this->v(), target);
+  }
+
+  // int32 BloodValue = 5;
+  if (this->bloodvalue() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->bloodvalue(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1278,6 +1364,13 @@ size_t Position::ByteSizeLong() const {
   // float V = 4;
   if (this->v() != 0) {
     total_size += 1 + 4;
+  }
+
+  // int32 BloodValue = 5;
+  if (this->bloodvalue() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->bloodvalue());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -1319,6 +1412,9 @@ void Position::MergeFrom(const Position& from) {
   if (from.v() != 0) {
     set_v(from.v());
   }
+  if (from.bloodvalue() != 0) {
+    set_bloodvalue(from.bloodvalue());
+  }
 }
 
 void Position::CopyFrom(const ::google::protobuf::Message& from) {
@@ -1349,6 +1445,7 @@ void Position::InternalSwap(Position* other) {
   swap(y_, other->y_);
   swap(z_, other->z_);
   swap(v_, other->v_);
+  swap(bloodvalue_, other->bloodvalue_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

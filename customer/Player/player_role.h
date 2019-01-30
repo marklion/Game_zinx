@@ -2,14 +2,18 @@
 #define _PLAYER_ROLE_H_
 
 #include "zinx.h"
-
+#include <vector>
 #include <random>
+#include <string>
+
+#define RANDOM_FIRST_NAME "random_first.txt"
+#define RANDOM_SECOND_NAME "random_second.txt"
+
 class Grid;
 class PlayerRole:public IdMsgRole{
 private:
     void ViewsLost(Grid *_pxGrid);
     void ViewsAppear(Grid *_pxGrid);
-    static std::default_random_engine e;
 public:
     PlayerRole();
     virtual bool init();
@@ -26,6 +30,23 @@ public:
     void OnExchangeAioGrid(int _oldGid, int _newGid);
     void UpdatePos(float _x, float _y, float _z, float _v);
     void Talk(const std::string &szContent);
+    static std::default_random_engine e;
+};
+
+struct FirstName {
+    std::string szFirstName;
+    std::vector<std::string> vecLastName;
+};
+
+class RandomName{
+public:
+    RandomName();
+    ~RandomName();
+    void LoadFile();
+    std::string GetName();
+    void ReleaseName(std::string szName);
+private:
+    std::vector<FirstName *> m_names;
 };
 
 #endif

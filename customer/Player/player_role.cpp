@@ -8,6 +8,9 @@
 #include <random>
 #include <time.h>
 #include <algorithm>
+#include <string> 
+#include <fstream> 
+#include <iostream> 
 
 using namespace std;
 
@@ -338,4 +341,58 @@ void PlayerRole::Talk(const string &szContent)
         }
     }
 }
+
+RandomName::RandomName()
+{
+}
+
+RandomName::~RandomName()
+{
+    auto itr = m_names.begin();
+    while (itr != m_names.end())
+    {
+        auto pData = (*itr);
+        delete pData;
+        m_names.erase(itr++);
+    }
+}
+
+void RandomName::LoadFile()
+{
+    ifstream fFirstName(RANDOM_FIRST_NAME);
+    ifstream fSecondName(RANDOM_SECOND_NAME);
+    string tmpFirst;
+    string tmpSecond;
+
+    if (fFirstName.is_open() && fSecondName.is_open())
+    {
+        while (getline(fFirstName, tmpFirst))
+        {
+            FirstName *pstFirst = new FirstName();
+            pstFirst->szFirstName = tmpFirst;
+            m_names.push_back(pstFirst);
+            while (getline(fSecondName, tmpSecond))
+            {
+                pstFirst->vecLastName.push_back(tmpSecond)
+            }
+        }
+
+        fFirstName.close();
+        fSecondName.close();
+    }
+}
+
+string RandomName::GetName()
+{
+    string szRet;
+    int iRandFirst = PlayerRole::e() % m_names.size();
+    int iRandSecond = PlayerRole::e() % m_names[iRandFirst]->vecLastName.size();
+
+    szRet = m_names[iRandFirst]->szFirstName + m_names[iRandFirst]->vecLastName[iRandSecond];
+    
+
+    return szRet;
+}
+
+
 
