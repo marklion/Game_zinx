@@ -18,3 +18,5 @@
 #include <stdarg.h>
 #include <fcntl.h>
 #include <list>
+#include <sys/wait.h>
+

@@ -42,6 +42,24 @@ void daemon_init(void) {
 	dup2(fd, 1);
 	dup2(fd, 2);
 	close(fd);
+
+    while (true)
+    {
+        int iPid = fork();
+        int status = 1;
+        if (iPid > 0)
+        {
+            wait(&status);
+        }
+        else if (iPid < 0)
+        {
+            exit(1);
+        }
+        else
+        {
+            break;
+        }
+    }
 }
 
 int main()
