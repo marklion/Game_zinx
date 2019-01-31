@@ -7,7 +7,7 @@
 #include <string>
 
 #define RANDOM_FIRST_NAME "random_first.txt"
-#define RANDOM_SECOND_NAME "random_second.txt"
+#define RANDOM_SECOND_NAME "random_last.txt"
 
 class Grid;
 class PlayerRole:public IdMsgRole{
@@ -23,6 +23,8 @@ public:
     float y = 0;
     float z = 0;
     float v = 0;
+    std::string szName;
+    int iBlood = 100;
 
     bool SyncSurrounding();
     void GetSurroundingPlayers(std::list<PlayerRole *> &_players);

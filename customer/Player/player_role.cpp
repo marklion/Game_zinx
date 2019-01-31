@@ -15,6 +15,8 @@
 using namespace std;
 
 default_random_engine PlayerRole::e(time(NULL));
+RandomName g_xRandModule;
+
 
 class Proc0Msg:public IIdMsgProc{
     virtual bool ProcMsg(IdMsgRole * _pxRole, IdMessage * _pxMsg)
@@ -28,6 +30,7 @@ PlayerRole::PlayerRole()
 {
 	x = e() % 10 + 160;
 	z = e() % 17 + 134;
+	szName = g_xRandModule.GetName();
 }
 
 class Proc2Msg:public IIdMsgProc{
@@ -127,6 +130,7 @@ bool PlayerRole::SyncId()
     PlayerMsg *pxPlayMsg = new PlayerMsg(1);
     pb::SyncPid *pxSync = new pb::SyncPid();
     pxSync->set_pid(iPid);
+    pxSync->set_username(szName);
     pxPlayMsg->pxProtobufMsg = pxSync;
     
     Response stResp;
@@ -157,6 +161,7 @@ void PlayerRole::fini()
     }
     
     AOIMgr::GetAOIMgr()->RemoveFromGridByPos(this, (int)x, (int)z);
+    g_xRandModule.ReleaseName(szName);
 }
 
 void PlayerRole::OnExchangeAioGrid(int _oldGid, int _newGid)
@@ -353,16 +358,19 @@ RandomName::~RandomName()
     {
         auto pData = (*itr);
         delete pData;
-        m_names.erase(itr++);
+        itr = m_names.erase(itr);
     }
 }
 
 void RandomName::LoadFile()
 {
-    ifstream fFirstName(RANDOM_FIRST_NAME);
-    ifstream fSecondName(RANDOM_SECOND_NAME);
+    ifstream fFirstName;
+    ifstream fSecondName;
     string tmpFirst;
     string tmpSecond;
+
+    fFirstName.open(RANDOM_FIRST_NAME);
+    fSecondName.open(RANDOM_SECOND_NAME);
 
     if (fFirstName.is_open() && fSecondName.is_open())
     {
@@ -373,8 +381,10 @@ void RandomName::LoadFile()
             m_names.push_back(pstFirst);
             while (getline(fSecondName, tmpSecond))
             {
-                pstFirst->vecLastName.push_back(tmpSecond)
+                pstFirst->vecLastName.push_back(tmpSecond);
             }
+            fSecondName.clear(ios::goodbit);
+            fSecondName.seekg(ios::beg);
         }
 
         fFirstName.close();
@@ -385,14 +395,56 @@ void RandomName::LoadFile()
 string RandomName::GetName()
 {
     string szRet;
-    int iRandFirst = PlayerRole::e() % m_names.size();
-    int iRandSecond = PlayerRole::e() % m_names[iRandFirst]->vecLastName.size();
 
-    szRet = m_names[iRandFirst]->szFirstName + m_names[iRandFirst]->vecLastName[iRandSecond];
-    
+    if (0 < m_names.size())
+    {
+        int iRandFirst = PlayerRole::e() % m_names.size();
+        FirstName *pstFirst = m_names[iRandFirst];
+        int iRandSecond = PlayerRole::e() % pstFirst->vecLastName.size();
+        
+        szRet = pstFirst->szFirstName + " " + pstFirst->vecLastName[iRandSecond];
+
+        pstFirst->vecLastName.erase(pstFirst->vecLastName.begin() + iRandSecond);
+        if (0 >= pstFirst->vecLastName.size())
+        {
+            m_names.erase(m_names.begin() + iRandFirst);
+            delete pstFirst;
+        }
+    }
+    else
+    {
+        szRet = "Not Support";
+    }
 
     return szRet;
 }
 
+void RandomName::ReleaseName(std :: string szName)
+{
+    int iSpace = szName.find(" ");
+    string szFirstName = szName.substr(0, iSpace);
+    string szSecondName = szName.substr(iSpace + 1, szName.size());
 
+    auto itr = m_names.begin();
+    for (; itr != m_names.end(); itr++)
+    {
+        if ((*itr)->szFirstName == szFirstName)
+        {
+            break;
+        }
+    }
+
+    FirstName *pstFirst = NULL;
+    if (m_names.end() != itr)
+    {
+        pstFirst = (*itr);
+    }
+    else
+    {
+        pstFirst = new FirstName();
+        pstFirst->szFirstName = szFirstName;
+        m_names.push_back(pstFirst);
+    }
+    pstFirst->vecLastName.push_back(szSecondName);
+}
 

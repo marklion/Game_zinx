@@ -1,5 +1,7 @@
 #include "zinx.h"
 #include "Player/player_channel.h"
+#include "Player/player_role.h"
+extern RandomName g_xRandModule;
 
 class StdinChannel:public Achannel{
 public:
@@ -32,6 +34,7 @@ int main()
 {
     Server *pxServer = Server::GetServer();
     pxServer->init();
+    g_xRandModule.LoadFile();
 
     pxServer->install_channel(new PlayerLstChannel());
 	pxServer->install_channel(new StdinChannel());
