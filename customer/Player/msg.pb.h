@@ -170,6 +170,20 @@ class SyncPid : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 
   // accessors -------------------------------------------------------
 
+  // string Username = 2;
+  void clear_username();
+  static const int kUsernameFieldNumber = 2;
+  const ::std::string& username() const;
+  void set_username(const ::std::string& value);
+  #if LANG_CXX11
+  void set_username(::std::string&& value);
+  #endif
+  void set_username(const char* value);
+  void set_username(const char* value, size_t size);
+  ::std::string* mutable_username();
+  ::std::string* release_username();
+  void set_allocated_username(::std::string* username);
+
   // int32 Pid = 1;
   void clear_pid();
   static const int kPidFieldNumber = 1;
@@ -180,6 +194,7 @@ class SyncPid : public ::google::protobuf::Message /* @@protoc_insertion_point(c
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr username_;
   ::google::protobuf::int32 pid_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_msg_2eproto::TableStruct;
@@ -522,6 +537,12 @@ class Position : public ::google::protobuf::Message /* @@protoc_insertion_point(
   float v() const;
   void set_v(float value);
 
+  // int32 BloodValue = 5;
+  void clear_bloodvalue();
+  static const int kBloodValueFieldNumber = 5;
+  ::google::protobuf::int32 bloodvalue() const;
+  void set_bloodvalue(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:pb.Position)
  private:
 
@@ -530,6 +551,7 @@ class Position : public ::google::protobuf::Message /* @@protoc_insertion_point(
   float y_;
   float z_;
   float v_;
+  ::google::protobuf::int32 bloodvalue_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_msg_2eproto::TableStruct;
 };
@@ -956,6 +978,59 @@ inline void SyncPid::set_pid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:pb.SyncPid.Pid)
 }
 
+// string Username = 2;
+inline void SyncPid::clear_username() {
+  username_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& SyncPid::username() const {
+  // @@protoc_insertion_point(field_get:pb.SyncPid.Username)
+  return username_.GetNoArena();
+}
+inline void SyncPid::set_username(const ::std::string& value) {
+  
+  username_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.SyncPid.Username)
+}
+#if LANG_CXX11
+inline void SyncPid::set_username(::std::string&& value) {
+  
+  username_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.SyncPid.Username)
+}
+#endif
+inline void SyncPid::set_username(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  username_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.SyncPid.Username)
+}
+inline void SyncPid::set_username(const char* value, size_t size) {
+  
+  username_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.SyncPid.Username)
+}
+inline ::std::string* SyncPid::mutable_username() {
+  
+  // @@protoc_insertion_point(field_mutable:pb.SyncPid.Username)
+  return username_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* SyncPid::release_username() {
+  // @@protoc_insertion_point(field_release:pb.SyncPid.Username)
+  
+  return username_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void SyncPid::set_allocated_username(::std::string* username) {
+  if (username != NULL) {
+    
+  } else {
+    
+  }
+  username_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), username);
+  // @@protoc_insertion_point(field_set_allocated:pb.SyncPid.Username)
+}
+
 // -------------------------------------------------------------------
 
 // Player
@@ -1120,6 +1195,20 @@ inline void Position::set_v(float value) {
   
   v_ = value;
   // @@protoc_insertion_point(field_set:pb.Position.V)
+}
+
+// int32 BloodValue = 5;
+inline void Position::clear_bloodvalue() {
+  bloodvalue_ = 0;
+}
+inline ::google::protobuf::int32 Position::bloodvalue() const {
+  // @@protoc_insertion_point(field_get:pb.Position.BloodValue)
+  return bloodvalue_;
+}
+inline void Position::set_bloodvalue(::google::protobuf::int32 value) {
+  
+  bloodvalue_ = value;
+  // @@protoc_insertion_point(field_set:pb.Position.BloodValue)
 }
 
 // -------------------------------------------------------------------
