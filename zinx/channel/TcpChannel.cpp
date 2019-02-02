@@ -60,6 +60,10 @@ bool TcpListenChannel::init()
         stServaddr.sin_family = AF_INET;
         stServaddr.sin_addr.s_addr = htonl(INADDR_ANY);
         stServaddr.sin_port = htons(m_usPort);
+
+        int opt = 1;
+        setsockopt(iListenFd, SOL_SOCKET, SO_REUSEADDR,  (void *)&opt, sizeof(opt));
+        
         if (0 == bind(iListenFd, (struct sockaddr *)&stServaddr, sizeof(stServaddr)))
         {
             if (0 == listen(iListenFd, 10))
