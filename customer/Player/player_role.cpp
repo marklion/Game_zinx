@@ -85,6 +85,7 @@ bool PlayerRole::SyncSurrounding()
     p->set_y(y);
     p->set_z(z);
     p->set_v(v);
+    p->set_bloodvalue(iBlood);
 
     PlayerMsg *pxSyncSelfMsg = new PlayerMsg(200);
     pxSyncSelfMsg->pxProtobufMsg = pxSyncSelf;
@@ -108,7 +109,7 @@ bool PlayerRole::SyncSurrounding()
         p->set_y(pxPlayer->y);
         p->set_z(pxPlayer->z);
         p->set_v(pxPlayer->v);
-
+        p->set_bloodvalue(pxPlayer->iBlood);
     }
     PlayerMsg *pxSurPlayerMsg = new PlayerMsg(202);
     pxSurPlayerMsg->pxProtobufMsg = pxSyncPlayers;
@@ -237,6 +238,7 @@ void PlayerRole::ViewsAppear(Grid * _pxGrid)
     pxSelfPos->set_y(y);
     pxSelfPos->set_z(z);
     pxSelfPos->set_v(v);
+    pxSelfPos->set_bloodvalue(iBlood);
     pb::BroadCast *pxSelfBroad = new pb::BroadCast();
     pxSelfBroad->set_allocated_p(pxSelfPos);
     pxSelfBroad->set_pid(iPid);
@@ -259,6 +261,7 @@ void PlayerRole::ViewsAppear(Grid * _pxGrid)
         pxOtherPos->set_y(pxOtherPlayer->y);
         pxOtherPos->set_z(pxOtherPlayer->z);
         pxOtherPos->set_v(pxOtherPlayer->v);
+        pxOtherPos->set_bloodvalue(pxOtherPlayer->iBlood);
         pb::BroadCast *pxOtherBroad = new pb::BroadCast();
         pxOtherBroad->set_allocated_p(pxOtherPos);
         pxOtherBroad->set_pid(pxOtherPlayer->iPid);
@@ -299,6 +302,7 @@ void PlayerRole::UpdatePos(float _x, float _y, float _z, float _v)
     pxSelfPos->set_y(y);
     pxSelfPos->set_z(z);
     pxSelfPos->set_v(v);
+    pxSelfPos->set_bloodvalue(iBlood);
     pb::BroadCast *pxSelfBroad = new pb::BroadCast;
     pxSelfBroad->set_pid(iPid);
     pxSelfBroad->set_tp(4);
