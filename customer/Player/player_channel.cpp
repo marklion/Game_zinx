@@ -6,7 +6,6 @@
 
 PlayerChannel::PlayerChannel(int _iDataFd, Aprotocol *_protocol):TcpDataChannel(_iDataFd, _protocol)
 {
-    std::cout << "new tcp connection, fd = "<<m_fd<<std::endl;
 }
 void PlayerChannel::TcpProcHup()
 {
@@ -18,7 +17,6 @@ void PlayerChannel::TcpProcHup()
         if (NULL != pxRole)
         {
             Server::GetServer()->del_role("PlayerRole", pxRole);
-            std::cout<<m_fd<<" is hangup"<<std::endl;
             delete pxRole;
             pxProtocol->pxBindRole = NULL;
         }

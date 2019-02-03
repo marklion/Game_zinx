@@ -101,6 +101,10 @@ void TcpListenChannel::fini()
 TcpDataChannel::TcpDataChannel(int _iDataFd, Aprotocol * _protocol):Achannel(_protocol)
 {
     m_fd = _iDataFd;
+    
+    std::cout<<"++++++++++++++++++++++++++++++"<<std::endl;
+    std::cout << "new tcp connection, fd = "<<m_fd<<std::endl;
+    std::cout<<"++++++++++++++++++++++++++++++"<<std::endl;
 }
 TcpDataChannel::~TcpDataChannel()
 {
@@ -131,6 +135,9 @@ bool TcpDataChannel::readFd(uint32_t _event, RawData * pstData)
     if (0 != (_event & (EPOLLHUP|EPOLLERR)))
     {
         bRet = false;
+        std::cout<<"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"<<std::endl;
+        std::cout<<m_fd<<" is hangup"<<std::endl;
+        std::cout<<"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"<<std::endl;
         TcpProcHup();
     }
 
@@ -144,8 +151,9 @@ bool TcpDataChannel::writeFd(const RawData * pstData)
     {
         bRet = true;
     }
-    
+    std::cout<<"<----------------------------------------->"<<std::endl;
     std::cout<<"send to "<<m_fd<<":"<<Achannel::Convert2Printable(pstData)<<std::endl;
+    std::cout<<"<----------------------------------------->"<<std::endl;
     return bRet;
 }
 
@@ -172,7 +180,9 @@ bool TcpDataChannel::TcpProcDataIn(RawData * pstData)
         }
     }
 
+    std::cout<<"<----------------------------------------->"<<std::endl;
     std::cout<<"recv from "<<m_fd<<":"<<Achannel::Convert2Printable(pstData)<<std::endl;
+    std::cout<<"<----------------------------------------->"<<std::endl;
 
     return bRet;
 }
