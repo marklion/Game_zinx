@@ -144,6 +144,8 @@ bool TcpDataChannel::writeFd(const RawData * pstData)
     {
         bRet = true;
     }
+    
+    std::cout<<"send to "<<m_fd<<":"<<Achannel::Convert2Printable(pstData)<<std::endl;
     return bRet;
 }
 
@@ -169,6 +171,8 @@ bool TcpDataChannel::TcpProcDataIn(RawData * pstData)
             pstData->pucData = pucTempData;
         }
     }
+
+    std::cout<<"recv from "<<m_fd<<":"<<Achannel::Convert2Printable(pstData)<<std::endl;
 
     return bRet;
 }

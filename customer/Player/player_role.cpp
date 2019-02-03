@@ -60,6 +60,7 @@ class Proc3Msg:public IIdMsgProc{
 
 bool PlayerRole::init()
 {
+    cout << szName << " is comming"<<endl;
     bool bRet = true;
     bRet |= register_id_func(0, new Proc0Msg());
     bRet |= register_id_func(3, new Proc3Msg());
@@ -163,6 +164,7 @@ void PlayerRole::fini()
     
     AOIMgr::GetAOIMgr()->RemoveFromGridByPos(this, (int)x, (int)z);
     g_xRandModule.ReleaseName(szName);
+    cout<<szName<<" exit"<<endl;
 }
 
 void PlayerRole::OnExchangeAioGrid(int _oldGid, int _newGid)
@@ -173,7 +175,6 @@ void PlayerRole::OnExchangeAioGrid(int _oldGid, int _newGid)
     AOIMgr::GetAOIMgr()->GetSurroundingGridsByGid(_oldGid, OldGrids);    
     AOIMgr::GetAOIMgr()->GetSurroundingGridsByGid(_newGid, NewGrids);
 
-    cout<<"old grids:";
     for (auto itr = OldGrids.begin(); itr != OldGrids.end(); itr++)
     {
         Grid *pxGrid = (*itr);
@@ -184,10 +185,7 @@ void PlayerRole::OnExchangeAioGrid(int _oldGid, int _newGid)
         {
             ViewsLost(pxGrid);
         }
-        cout <<pxGrid->Gid<<" ";
     }
-    cout<<endl;
-    cout<<"new grids:";
     for (auto itr = NewGrids.begin(); itr != NewGrids.end(); itr++)
     {
         Grid *pxGrid = (*itr);
@@ -197,9 +195,7 @@ void PlayerRole::OnExchangeAioGrid(int _oldGid, int _newGid)
         {
             ViewsAppear(pxGrid);
         }
-        cout <<pxGrid->Gid<<" ";
     }
-    cout<<endl;
 }
 
 void PlayerRole::ViewsLost(Grid * _pxGrid)
@@ -287,8 +283,6 @@ void PlayerRole::UpdatePos(float _x, float _y, float _z, float _v)
     y = _y;
     z = _z;
     v = _v;
-
-    cout<<"Update Pos"<<" x="<<x<<" y="<<y<<" z="<<z<<" v="<<v<<" oldGid="<<oldGid<<" newGid="<<newGid<<endl;
 
     if (oldGid != newGid)
     {
