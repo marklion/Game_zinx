@@ -288,6 +288,20 @@ class Player : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
 
   // accessors -------------------------------------------------------
 
+  // string Username = 3;
+  void clear_username();
+  static const int kUsernameFieldNumber = 3;
+  const ::std::string& username() const;
+  void set_username(const ::std::string& value);
+  #if LANG_CXX11
+  void set_username(::std::string&& value);
+  #endif
+  void set_username(const char* value);
+  void set_username(const char* value, size_t size);
+  ::std::string* mutable_username();
+  ::std::string* release_username();
+  void set_allocated_username(::std::string* username);
+
   // .pb.Position P = 2;
   bool has_p() const;
   void clear_p();
@@ -310,6 +324,7 @@ class Player : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr username_;
   ::pb::Position* p_;
   ::google::protobuf::int32 pid_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -1101,6 +1116,59 @@ inline void Player::set_allocated_p(::pb::Position* p) {
   }
   p_ = p;
   // @@protoc_insertion_point(field_set_allocated:pb.Player.P)
+}
+
+// string Username = 3;
+inline void Player::clear_username() {
+  username_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& Player::username() const {
+  // @@protoc_insertion_point(field_get:pb.Player.Username)
+  return username_.GetNoArena();
+}
+inline void Player::set_username(const ::std::string& value) {
+  
+  username_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.Player.Username)
+}
+#if LANG_CXX11
+inline void Player::set_username(::std::string&& value) {
+  
+  username_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.Player.Username)
+}
+#endif
+inline void Player::set_username(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  username_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.Player.Username)
+}
+inline void Player::set_username(const char* value, size_t size) {
+  
+  username_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.Player.Username)
+}
+inline ::std::string* Player::mutable_username() {
+  
+  // @@protoc_insertion_point(field_mutable:pb.Player.Username)
+  return username_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Player::release_username() {
+  // @@protoc_insertion_point(field_release:pb.Player.Username)
+  
+  return username_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Player::set_allocated_username(::std::string* username) {
+  if (username != NULL) {
+    
+  } else {
+    
+  }
+  username_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), username);
+  // @@protoc_insertion_point(field_set_allocated:pb.Player.Username)
 }
 
 // -------------------------------------------------------------------

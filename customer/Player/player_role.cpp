@@ -105,6 +105,7 @@ bool PlayerRole::SyncSurrounding()
 
         pb::Player *pxSurPlayer = pxSyncPlayers->add_ps();
         pxSurPlayer->set_pid(pxPlayer->iPid);
+        pxSurPlayer->set_username(pxPlayer->szName);
         pb::Position *p = pxSurPlayer->mutable_p();
         p->set_x(pxPlayer->x);
         p->set_y(pxPlayer->y);
@@ -146,6 +147,7 @@ void PlayerRole::fini()
 {
     pb::SyncPid *pxSyncpid = new pb::SyncPid();
     pxSyncpid->set_pid(this->iPid);
+    pxSyncpid->set_username(szName);
 
     PlayerMsg *pxMsg = new PlayerMsg(201);
     pxMsg->pxProtobufMsg = pxSyncpid;
@@ -202,6 +204,7 @@ void PlayerRole::ViewsLost(Grid * _pxGrid)
 {
     pb::SyncPid *pxSyncSelfId = new pb::SyncPid();
     pxSyncSelfId->set_pid(this->iPid);
+    pxSyncSelfId->set_username(szName);
 
     PlayerMsg *pxOthersMsg = new PlayerMsg(201);
     pxOthersMsg->pxProtobufMsg = pxSyncSelfId;
@@ -218,6 +221,7 @@ void PlayerRole::ViewsLost(Grid * _pxGrid)
 
         pb::SyncPid *pxSyncOthersId = new pb::SyncPid();
         pxSyncOthersId->set_pid(pxPlayer->iPid);
+        pxSyncOthersId->set_username(szName);
         PlayerMsg *pxSelfMsg = new PlayerMsg(201);
         pxSelfMsg->pxProtobufMsg = pxSyncOthersId;
         Response stResp2Self;
