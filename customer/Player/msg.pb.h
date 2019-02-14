@@ -782,6 +782,20 @@ class BroadCast : public ::google::protobuf::Message /* @@protoc_insertion_point
 
   // accessors -------------------------------------------------------
 
+  // string Username = 6;
+  void clear_username();
+  static const int kUsernameFieldNumber = 6;
+  const ::std::string& username() const;
+  void set_username(const ::std::string& value);
+  #if LANG_CXX11
+  void set_username(::std::string&& value);
+  #endif
+  void set_username(const char* value);
+  void set_username(const char* value, size_t size);
+  ::std::string* mutable_username();
+  ::std::string* release_username();
+  void set_allocated_username(::std::string* username);
+
   // int32 Pid = 1;
   void clear_pid();
   static const int kPidFieldNumber = 1;
@@ -844,6 +858,7 @@ class BroadCast : public ::google::protobuf::Message /* @@protoc_insertion_point
   inline void clear_has_Data();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr username_;
   ::google::protobuf::int32 pid_;
   ::google::protobuf::int32 tp_;
   union DataUnion {
@@ -1547,6 +1562,59 @@ inline void BroadCast::set_actiondata(::google::protobuf::int32 value) {
   }
   Data_.actiondata_ = value;
   // @@protoc_insertion_point(field_set:pb.BroadCast.ActionData)
+}
+
+// string Username = 6;
+inline void BroadCast::clear_username() {
+  username_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& BroadCast::username() const {
+  // @@protoc_insertion_point(field_get:pb.BroadCast.Username)
+  return username_.GetNoArena();
+}
+inline void BroadCast::set_username(const ::std::string& value) {
+  
+  username_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.BroadCast.Username)
+}
+#if LANG_CXX11
+inline void BroadCast::set_username(::std::string&& value) {
+  
+  username_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.BroadCast.Username)
+}
+#endif
+inline void BroadCast::set_username(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  username_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.BroadCast.Username)
+}
+inline void BroadCast::set_username(const char* value, size_t size) {
+  
+  username_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.BroadCast.Username)
+}
+inline ::std::string* BroadCast::mutable_username() {
+  
+  // @@protoc_insertion_point(field_mutable:pb.BroadCast.Username)
+  return username_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* BroadCast::release_username() {
+  // @@protoc_insertion_point(field_release:pb.BroadCast.Username)
+  
+  return username_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void BroadCast::set_allocated_username(::std::string* username) {
+  if (username != NULL) {
+    
+  } else {
+    
+  }
+  username_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), username);
+  // @@protoc_insertion_point(field_set_allocated:pb.BroadCast.Username)
 }
 
 inline bool BroadCast::has_Data() const {

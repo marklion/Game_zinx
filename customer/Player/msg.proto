@@ -38,6 +38,7 @@ message BroadCast{
         Position P=4;
 		int32 ActionData=5;
         }
+	string Username=6;
 }
 
 

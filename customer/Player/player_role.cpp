@@ -81,6 +81,7 @@ bool PlayerRole::SyncSurrounding()
     pb::BroadCast *pxSyncSelf = new pb::BroadCast();
     pxSyncSelf->set_pid(iPid);
     pxSyncSelf->set_tp(2);
+    pxSyncSelf->set_username(szName);
     pb::Position *p = pxSyncSelf->mutable_p();
     p->set_x(x);
     p->set_y(y);
@@ -243,6 +244,7 @@ void PlayerRole::ViewsAppear(Grid * _pxGrid)
     pxSelfBroad->set_allocated_p(pxSelfPos);
     pxSelfBroad->set_pid(iPid);
     pxSelfBroad->set_tp(2);
+    pxSelfBroad->set_username(szName);
 
     PlayerMsg *pxSelfMsg = new PlayerMsg(200);
     pxSelfMsg->pxProtobufMsg = pxSelfBroad;
@@ -266,6 +268,7 @@ void PlayerRole::ViewsAppear(Grid * _pxGrid)
         pxOtherBroad->set_allocated_p(pxOtherPos);
         pxOtherBroad->set_pid(pxOtherPlayer->iPid);
         pxOtherBroad->set_tp(2);
+        pxOtherBroad->set_username(pxOtherPlayer->szName);
 
         PlayerMsg *pxOtherMsg = new PlayerMsg(200);
         pxOtherMsg->pxProtobufMsg = pxOtherBroad;
@@ -304,6 +307,7 @@ void PlayerRole::UpdatePos(float _x, float _y, float _z, float _v)
     pb::BroadCast *pxSelfBroad = new pb::BroadCast;
     pxSelfBroad->set_pid(iPid);
     pxSelfBroad->set_tp(4);
+    pxSelfBroad->set_username(szName);
     pxSelfBroad->set_allocated_p(pxSelfPos);
 
     PlayerMsg *pxSelfMsg = new PlayerMsg(200);
@@ -326,6 +330,7 @@ void PlayerRole::Talk(const string &szContent)
     pb::BroadCast *pxBroadTalk = new pb::BroadCast();
     pxBroadTalk->set_pid(iPid);
     pxBroadTalk->set_tp(1);
+    pxBroadTalk->set_username(szName);
     pxBroadTalk->set_content(szContent);
 
     PlayerMsg *pxMsg = new PlayerMsg(200);
