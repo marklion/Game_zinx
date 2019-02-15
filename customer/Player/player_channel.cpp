@@ -7,7 +7,8 @@
 PlayerChannel::PlayerChannel(int _iDataFd, Aprotocol *_protocol):TcpDataChannel(_iDataFd, _protocol)
 {
 }
-void PlayerChannel::TcpProcHup()
+
+void PlayerChannel::fini()
 {
     Arole *pxRole = NULL;
     PlayerProtocol *pxProtocol = dynamic_cast<PlayerProtocol *>(m_pxProtocol);
@@ -22,7 +23,6 @@ void PlayerChannel::TcpProcHup()
         }
     }
 }
-
 PlayerLstChannel::PlayerLstChannel():TcpListenChannel(8899)
 {
 
