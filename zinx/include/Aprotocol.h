@@ -1,7 +1,7 @@
 #ifndef _APROTOCOL_H_
 #define _APROTOCOL_H_
 #include "include.h"
-#include "message/Amessage.h"
+#include "Amessage.h"
 
 struct RawData{
     unsigned char *pucData = NULL;

@@ -2,7 +2,7 @@
 #define _ID_MSG_ROLE_H_
 
 #include "Arole.h"
-#include "message/Amessage.h"
+#include "Amessage.h"
 #include <map>
 
 class IdMsgRole;

@@ -1,7 +1,7 @@
 ﻿cmake_minimum_required (VERSION 3.8)
 project("GameServer")
 add_definitions("-std=c++11 -g -Wall -lpthread")
-INCLUDE_DIRECTORIES(zinx)
+INCLUDE_DIRECTORIES(zinx/include)
 ADD_SUBDIRECTORY(zinx)
 aux_source_directory(./customer DIR_SRCS)
 aux_source_directory(./customer/Player DIR_PLAYER_SRCS)
@@ -12,5 +12,5 @@ ADD_EXECUTABLE(game ${DIR_SRCS} ${DIR_PLAYER_SRCS})
 target_link_libraries(game zinx protobuf pthread)
 INSTALL(TARGETS zinx LIBRARY DESTINATION /usr/lib)
 INSTALL(FILES ./customer/Player/random_first.txt ./customer/Player/random_last.txt DESTINATION ${PROJECT_BINARY_DIR}/bin)
-
+INSTALL(DIRECTORY zinx/include/ DESTINATION /usr/include/zinx/)
 
