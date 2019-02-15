@@ -2,7 +2,7 @@
 #define _TCP_CHANNLE_H_
 
 #include "Achannel.h"
-#include "message/Amessage.h"
+#include "Amessage.h"
 
 class TcpListenChannel:public Achannel{
 public:

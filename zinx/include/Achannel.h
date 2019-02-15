@@ -1,7 +1,7 @@
 #ifndef _ACHANNEL_H_
 #define _ACHANNEL_H_
 
-#include "protocol/Aprotocol.h"
+#include "Aprotocol.h"
 #include <sys/epoll.h>
 #include "include.h"
 

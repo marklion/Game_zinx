@@ -1,9 +1,9 @@
 #ifndef _SERVER_H_
 #define _SERVER_H_
 
-#include "channel/Achannel.h"
-#include "role/Arole.h"
-#include "message/Amessage.h"
+#include "Achannel.h"
+#include "Arole.h"
+#include "Amessage.h"
 #include <list>
 #include <map>
 
