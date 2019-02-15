@@ -10,5 +10,7 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
 ADD_EXECUTABLE(game ${DIR_SRCS} ${DIR_PLAYER_SRCS})
 target_link_libraries(game zinx protobuf pthread)
+INSTALL(TARGETS zinx LIBRARY DESTINATION /usr/lib)
+INSTALL(FILES ./customer/Player/random_first.txt ./customer/Player/random_last.txt DESTINATION ${PROJECT_BINARY_DIR}/bin)
 
 
