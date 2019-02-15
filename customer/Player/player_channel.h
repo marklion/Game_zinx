@@ -6,7 +6,7 @@
 class PlayerChannel:public TcpDataChannel{
 public:
     PlayerChannel(int _iDataFd, Aprotocol *_protocol);
-    virtual void TcpProcHup() override;
+    virtual void fini() override;
 };
 
 class PlayerLstChannel:public TcpListenChannel{

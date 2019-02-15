@@ -53,6 +53,11 @@ bool PlayerProtocol::raw2request(const RawData *pstData, std::list<Request *> &_
         PlayerMsg *pxMsg = NULL;
         while (NULL != (pxMsg = GetMessagefromRaw()))
         {
+            PlayerRole *pTmp = dynamic_cast<PlayerRole *>(pxBindRole);
+            if (NULL != pTmp)
+            {
+                std::cout<<pTmp->szName<<"recv msg:\n"<<pxMsg->pxProtobufMsg->Utf8DebugString()<<std::endl;
+            }
             Request *pstReq = new Request();
             pstReq->pxMsg = pxMsg;
             pstReq->pxProcessor = pxBindRole;
@@ -93,6 +98,11 @@ bool PlayerProtocol::response2raw(const Response * pstResp, RawData * pstData)
         std::string szOut;
         if (true == pxMsg->pxProtobufMsg->SerializeToString(&szOut))
         {
+            PlayerRole *pTmp = dynamic_cast<PlayerRole *>(pxBindRole);
+            if (NULL != pTmp)
+            {
+                std::cout<<pTmp->szName<<"send msg:\n"<<pxMsg->pxProtobufMsg->Utf8DebugString()<<std::endl;
+            }
             iProtoLen = szOut.size();
             unsigned char *pucData = (unsigned char *)calloc(1UL, iProtoLen + 8);
             pucData[0] = iProtoLen & 0xff;

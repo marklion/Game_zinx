@@ -10,6 +10,7 @@ message SyncPid{
 message Player{
 	int32 Pid=1;
 	Position P=2;
+	string Username=3;
 }
 
 message SyncPlayers{
@@ -37,6 +38,7 @@ message BroadCast{
         Position P=4;
 		int32 ActionData=5;
         }
+	string Username=6;
 }
 
 

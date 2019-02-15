@@ -2,11 +2,13 @@
 #include "player_protocol.h"
 #include "player_role.h"
 #include "player_message.h"
+#include <iostream>
 
 PlayerChannel::PlayerChannel(int _iDataFd, Aprotocol *_protocol):TcpDataChannel(_iDataFd, _protocol)
 {
 }
-void PlayerChannel::TcpProcHup()
+
+void PlayerChannel::fini()
 {
     Arole *pxRole = NULL;
     PlayerProtocol *pxProtocol = dynamic_cast<PlayerProtocol *>(m_pxProtocol);
@@ -21,7 +23,6 @@ void PlayerChannel::TcpProcHup()
         }
     }
 }
-
 PlayerLstChannel::PlayerLstChannel():TcpListenChannel(8899)
 {
 
@@ -36,6 +37,7 @@ bool PlayerLstChannel::TcpAfterConnection(int _iDataFd, struct sockaddr_in * pst
     
     Server::GetServer()->install_channel(pxTcpData);
     Server::GetServer()->add_role("PlayerRole", pxPlayer);
+
     
     return true;
 }

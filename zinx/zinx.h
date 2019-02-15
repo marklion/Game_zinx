@@ -5,3 +5,4 @@
 #include "server.h"
 #include "channel/TcpChannel.h"
 #include "role/IdMsgRole.h"
+#include "log.h"

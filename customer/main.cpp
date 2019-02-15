@@ -25,18 +25,7 @@ void daemon_init(void) {
 	// 3. 重启 session 会话
 	setsid();
 
-	// 4. 改变工作目录
-	//chdir("/"); 
-
-	// 5. 得到并关闭文件描述符
-	struct rlimit rl;
-	getrlimit(RLIMIT_NOFILE, &rl);
-	if (rl.rlim_max == RLIM_INFINITY)
-		rl.rlim_max = 1024;
-	for(unsigned int i = 0; i < rl.rlim_max; i++)	
-		close(i); 
-	
-	// 6. 不接受标准输入，输入，错误
+	// 4. 不接受标准输入，输入，错误
 	int fd = open("/dev/null", O_RDWR);
 	dup2(fd, 0);
 	dup2(fd, 1);
@@ -62,9 +51,22 @@ void daemon_init(void) {
     }
 }
 
-int main()
+int main(int argc, char **argv)
 {
-    daemon_init();
+    if (argc == 2)
+    {
+        if (0 != strcmp(argv[1], "debug"))
+        {
+            daemon_init();
+            LOG_SetStdOut("game_std_out.txt");
+            LOG_SetStdErr("game_std_err.txt");
+        }
+    }
+    else
+    {
+        std::cout<<"Usage:"<<argv[0]<<" {daemon|debug}"<<std::endl;
+        return 0;
+    }
 
     Server *pxServer = Server::GetServer();
     pxServer->init();
