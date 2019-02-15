@@ -53,18 +53,21 @@ void daemon_init(void) {
 
 int main(int argc, char **argv)
 {
-    if (argc == 2)
+    if (argc >= 2)
     {
-        if (0 != strcmp(argv[1], "debug"))
+        if (0 == strcmp(argv[1], "daemon"))
         {
             daemon_init();
-            LOG_SetStdOut("game_std_out.txt");
-            LOG_SetStdErr("game_std_err.txt");
+            if ((argc == 3) && (0 == strcmp(argv[2], "log")))
+            {
+                LOG_SetStdOut("game_std_out.txt");
+                LOG_SetStdErr("game_std_err.txt");
+            }
         }
     }
     else
     {
-        std::cout<<"Usage:"<<argv[0]<<" {daemon|debug}"<<std::endl;
+        std::cout<<"Usage:"<<argv[0]<<" <daemon [log] | debug>"<<std::endl;
         return 0;
     }
 
