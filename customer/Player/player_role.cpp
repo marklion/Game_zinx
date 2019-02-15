@@ -205,19 +205,19 @@ bool PlayerRole::need_update(float _x, float _y, float _z, float _v)
 {
     bool bRet = false;
     float move_size = x - _x;
-    if ((-0.1 > move_size) || (0.1 < move_size))
+    if ((-0.2 > move_size) || (0.2 < move_size))
     {
         bRet = true;
     }
-    else if ((-0.1 > (move_size = y - _y)) || (0.1 < move_size))
+    else if ((-0.2 > (move_size = y - _y)) || (0.2 < move_size))
     {
         bRet = true;
     }
-    else if ((-0.1 > (move_size = z - _z)) || (0.1 < move_size))
+    else if ((-0.2 > (move_size = z - _z)) || (0.2 < move_size))
     {
         bRet = true;
     }
-    else if ((-0.1 > (move_size = v - _v)) || (0.1 < move_size))
+    else if ((-0.2 > (move_size = v - _v)) || (0.2 < move_size))
     {
         bRet = true;
     }
