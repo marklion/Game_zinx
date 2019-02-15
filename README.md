@@ -16,7 +16,7 @@ mkdir build
 cd build
 cmake ../
 make
-
+make install
 ```
 
 ## 框架简介
