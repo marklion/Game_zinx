@@ -33,7 +33,10 @@ PlayerMsg * PlayerProtocol::GetMessagefromRaw()
                 pb::Talk *pxTalkMsg = new pb::Talk();
                 pxRet->pxProtobufMsg = pxTalkMsg;
             }
-            pxRet->pxProtobufMsg->ParseFromArray((char *)(m_lasttime_data.pucData + 8 + iCurPos),ilength);
+            if (NULL != pxRet->pxProtobufMsg)
+            {
+                pxRet->pxProtobufMsg->ParseFromArray((char *)(m_lasttime_data.pucData + 8 + iCurPos),ilength);
+            }
             iCurPos += ilength + 8;
         }
     }
