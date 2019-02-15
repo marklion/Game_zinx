@@ -14,6 +14,7 @@ class PlayerRole:public IdMsgRole{
 private:
     void ViewsLost(Grid *_pxGrid);
     void ViewsAppear(Grid *_pxGrid);
+    bool need_update(float _x, float _y, float _z, float _v);
 public:
     PlayerRole();
     virtual bool init();
