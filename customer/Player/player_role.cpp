@@ -201,6 +201,30 @@ void PlayerRole::OnExchangeAioGrid(int _oldGid, int _newGid)
     }
 }
 
+bool PlayerRole::need_update(float _x, float _y, float _z, float _v)
+{
+    bool bRet = false;
+    float move_size = x - _x;
+    if ((-0.1 > move_size) || (0.1 < move_size))
+    {
+        bRet = true;
+    }
+    else if ((-0.1 > (move_size = y - _y)) || (0.1 < move_size))
+    {
+        bRet = true;
+    }
+    else if ((-0.1 > (move_size = z - _z)) || (0.1 < move_size))
+    {
+        bRet = true;
+    }
+    else if ((-0.1 > (move_size = v - _v)) || (0.1 < move_size))
+    {
+        bRet = true;
+    }
+    
+    return bRet;
+}
+
 void PlayerRole::ViewsLost(Grid * _pxGrid)
 {
     pb::SyncPid *pxSyncSelfId = new pb::SyncPid();
@@ -283,6 +307,10 @@ void PlayerRole::ViewsAppear(Grid * _pxGrid)
 
 void PlayerRole::UpdatePos(float _x, float _y, float _z, float _v)
 {
+    if (false == need_update(_x, _y, _z, _v))
+    {
+        return;
+    }
     int oldGid = AOIMgr::GetAOIMgr()->GetGidbyPos((int)x, (int)z);
     int newGid = AOIMgr::GetAOIMgr()->GetGidbyPos((int)_x, (int)_z);
 
