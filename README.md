@@ -35,4 +35,18 @@ zinx框架是用来处理通用IO，协议和事件的。
 + Request结构和Response结构
 > 这两个结构体的布局完全相同只是成员变量名称不同。用来将Amessage对象和处理它的Arole或发送它的Arole封装起来。***开发者只需按照C语言的风格使用这个结构体，不要去无谓的继承该结构体***
 
+框架还提供以下实用类帮助开发者快速开发
++ TcpListenChannel类
+> 该类继承自Achannel类，用于处理TCP监听。构造对象时需要携带参数usPort作为监听端口号，将该类的实例添加到server中后，若有tcp连接到来则成员函数TcpAfterConnection会被调用。***开发者应该重写TcpAfterConnection方法以实现所需功能***
++ TcpDataChannel类
+> 该类继承自Achannel类，用于处理TCP数据报文。构造对象时必须携带参数_iDataFd作为TCP数据socket。该类实例应该在客户端连接到来后构造，然后添加到server中，若socket收到数据，则成员函数TcpProcDataIn会被调用；若socket发生异常（如对端关闭）则成员函数TcpProcHup会被调用，然后该实例会自动从server中摘除并析构掉。***不建议开发人员重写该类的虚函数，一般建议将数据层面的处理逻辑放到该类绑定的Aprotocol对象中处理。***
++ IdMessage类
+> 该类继承自Amessage类，用于封装有固定序号的消息。构造时必须通过参数_id指定消息序号。***若开发者需要使用数值作为消息类型或ID时，可以继承该类并添加业务相关的变量***
++ IIdMsgProc类
+> 该类是纯虚类，包含一个纯虚函数ProcMsg用于处理IdMessage。***若开发者需要使用IdMessage类或其派生类作为消息封装，则建议继承该类并在ProcMsg中实现具体功能***
++ IdMsgRole类
+> 该类继承自Arole类，用于处理IdMessage类型的消息。将其实例化后需要在成员函数init()中调用register_id_func函数将消息类型和对应的消息处理对象（IIdMsgProc对象）进行注册。该类构造的对象添加到server中后，若有IdMessage被指定由该对象处理，则之前注册的相应的IIdMsgProc会被调用处理该消息。***开发者的纯业务处理应该由该类的派生类实现，并合理地注册多个IIdMsgProc对业务请求分类处理***
+
+## 常用API
+
 ## 举例
