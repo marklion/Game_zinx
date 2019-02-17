@@ -48,5 +48,55 @@ zinx框架是用来处理通用IO，协议和事件的。
 > 该类继承自Arole类，用于处理IdMessage类型的消息。将其实例化后需要在成员函数init()中调用register_id_func函数将消息类型和对应的消息处理对象（IIdMsgProc对象）进行注册。该类构造的对象添加到server中后，若有IdMessage被指定由该对象处理，则之前注册的相应的IIdMsgProc会被调用处理该消息。***开发者的纯业务处理应该由该类的派生类实现，并合理地注册多个IIdMsgProc对业务请求分类处理***
 
 ## 常用API
+开发者要想正常使用框架，那么以下列出的API是几乎是最常用到的。开发者需要重写或调用这些函数。
+
+`Server *Server::GetServer()`
++ 描述：该函数用于获取server实例。因为server类被设计为单例模式，所以能且只能通过该函数获取唯一server实例。
++ 返回值：server对象；若失败则返回空。
+
+`bool Server::init()`
++ 描述：该函数用于初始化server实例，应该在第一次获取server实例后调用。
++ 返回值：true->成功，false->失败
+
+`bool Server::install_channel(Achannel * pxChannel);`
++ 描述:该函数用于将Achannel及其派生类对象安装到server实例中。
++ 参数：pxChannel是待添加的通道对象，必须是堆对象。
++ 返回值：true->成功，false->失败
+
+`void Server::uninstall_channel(Achannel * pxChannel);`
++ 描述：该函数用于摘除server中的Arole对象。**摘除后pxChannel对象并没有被释放。**
++ 参数：pxChannel是待摘除对象。
+
+`bool Server::add_role(std::string szCharacter, Arole * pxRole);`
++ 描述：该函数用于将pxRole对象添加到server实例中。
++ 参数：
+  - szCharacter用于指定pxRole对象的特征或分类。通常可以设置为类名，被指定的特征相同的pxRole会在server内被组成一张线性表。
+  - pxRole表示待添加的角色对象，必须是堆对象。
++ 返回值：true->成功，false->失败
+
+`void Server::del_role(std::string szCharacter, Arole * pxRole);`
++ 描述：该函数用于摘除server对象中的Arole对象。**摘除后pxRole对象并没有被释放。**
++ 参数：
+  - szCharacter表示pxRole对象的特征或分类。
+  - pxRole表示待摘除对象。
+  
+`list<Arole*>* Server::GetRoleListByCharacter(std::string szCharacter)`
++ 描述：该函数用于获取特征为szCharacter的所有Arole对象。Arole对象被组织到list中，**这个list不应该被修改内容和或释放。**
++ 参数：szCharacter表示pxRole对象的特征或分类。
++ 返回值：包含所有符合条件的Arole对象；没找到则为空。
+
+`bool Server::run();`
++ 描述：该函数是框架的运行入口，调用该函数后程序会进入循环阻塞等待之前添加的Achannel对象产生相应的IO并作出处理。该函数不会返回除非server实例未初始化或在运行时成员函数ShutDownMainLoop被调用。
++ 返回值：true->调用ShutDownMainLoop退出，false->server实例未初始化成功。
+
+`void Server::ShutDownMainLoop()`
++ 描述： 该函数用于停止框架主循环。可以在server实例run起来之后任意时间调用。
+
+`bool TcpListenChannel::TcpAfterConnection(int _iDataFd, struct sockaddr_in *pstClientAddr)`
++ 描述：该函数会在新的TCP连接建立后被调用。一般情况下，需要开发者重新该函数，在函数内创建TcpDataChannel对象并添加到server实例中。
++ 参数：
+  - \_iDataFd是新建立的数据socket。
+  - pstClientAddr是客户端的地址结构封装。
++ 返回值：true->成功，false->失败
 
 ## 举例
