@@ -45,10 +45,12 @@ zinx框架是用来处理通用IO，协议和事件的。
 + IIdMsgProc类
 > 该类是纯虚类，包含一个纯虚函数ProcMsg用于处理IdMessage。***若开发者需要使用IdMessage类或其派生类作为消息封装，则建议继承该类并在ProcMsg中实现具体功能***
 + IdMsgRole类
-> 该类继承自Arole类，用于处理IdMessage类型的消息。将其实例化后需要在成员函数init()中调用register_id_func函数将消息类型和对应的消息处理对象（IIdMsgProc对象）进行注册。该类构造的对象添加到server中后，若有IdMessage被指定由该对象处理，则之前注册的相应的IIdMsgProc会被调用处理该消息。***开发者的纯业务处理应该由该类的派生类实现，并合理地注册多个IIdMsgProc对业务请求分类处理***
+> 该类继承自Arole类，用于处理IdMessage类型的消息。将其实例化后需调用register_id_func函数将消息类型和对应的消息处理对象（IIdMsgProc对象）进行注册。该类构造的对象添加到server中后，若有IdMessage被指定由该对象处理，则之前注册的相应的IIdMsgProc会被调用处理该消息。***开发者的纯业务处理应该由该类的派生类实现，并合理地注册多个IIdMsgProc对业务请求分类处理***
 
 ## 常用API
 开发者要想正常使用框架，那么以下列出的API是几乎是最常用到的。开发者需要重写或调用这些函数。
+
+### 1. 需要被调用的API
 
 `Server *Server::GetServer()`
 + 描述：该函数用于获取server实例。因为server类被设计为单例模式，所以能且只能通过该函数获取唯一server实例。
@@ -89,14 +91,46 @@ zinx框架是用来处理通用IO，协议和事件的。
 + 描述：该函数是框架的运行入口，调用该函数后程序会进入循环阻塞等待之前添加的Achannel对象产生相应的IO并作出处理。该函数不会返回除非server实例未初始化或在运行时成员函数ShutDownMainLoop被调用。
 + 返回值：true->调用ShutDownMainLoop退出，false->server实例未初始化成功。
 
+`bool Server::send_resp(Response * pstResp)`
++ 描述：当运行时需要向外发送请求时，应该调用该函数。不建议直接调用Achannel对象的发送方法。
++ 参数：pstResp中必须包含待发送的Amessage对象和发送该消息的Arole对象。若该对象Arole没有绑定出口Achannel，则该函数什么都不会做。
++ 返回值：true->成功，false->失败。
+
 `void Server::ShutDownMainLoop()`
 + 描述： 该函数用于停止框架主循环。可以在server实例run起来之后任意时间调用。
 
+`bool IdMsgRole::register_id_func(int _id, IIdMsgProc *Iproc)`
++ 描述：注册消息类型和其对应的处理接口。该函数应该在IdMsgRole对象创建后调用。
++ 参数
+
+### 2. 需要被重写的API
+
+`bool Aprotocol::raw2request(const RawData *pstData, std::list<Request *> &_ReqList);`
++ 描述：该函数会在绑定的Achannel对象收到数据后调用，用来把原始数据pstData转换成若干Request对象组成的list。开发者需要在派生类重写该函数将报文解析，封包，校验等功能实现。
++ 参数：
+  - pstData是待处理的原始数据。其结构包含unsigned char \*pucData和int iLength两个核心变量分别存储数据缓冲区指针和数据长度。
+  - \_ReqList是传出参数，用来存放转换后的若干Request对象。开发者需要将堆对象添加到表中，当数据处理完成后框架会自动释放堆内存。
++ 返回值：若正常产生了Request对象则返回true；若由于数据不全等因素导致转换失败则返回false。
+
+`bool Aprotocol::response2raw(const Response * pstResp, RawData * pstData); `
++ 描述：该函数会在Achannel对象的发送函数被调用之前调用。在该函数内需要开发者实现请求消息的序列化，从而方便后续数据发送。
++ 参数：
+  - pstResp包含待发送消息Amessage和发送者Arole。
+  - pstData是传出参数，用来存放序列化完成的数据。
++ 返回值：若正常序列化则返回true，否则返回false。
+
 `bool TcpListenChannel::TcpAfterConnection(int _iDataFd, struct sockaddr_in *pstClientAddr)`
-+ 描述：该函数会在新的TCP连接建立后被调用。一般情况下，需要开发者重新该函数，在函数内创建TcpDataChannel对象并添加到server实例中。
++ 描述：该函数会在新的TCP连接建立后被调用。一般情况下，需要开发者重写该函数，在函数内创建TcpDataChannel对象并添加到server实例中。
 + 参数：
   - \_iDataFd是新建立的数据socket。
   - pstClientAddr是客户端的地址结构封装。
-+ 返回值：true->成功，false->失败
++ 返回值：一般返回true。若返回false，则该TCP监听端口会被从server实例中摘除并关闭。
+
+`bool IIdMsgProc::ProcMsg(IdMsgRole *_pxRole, IdMessage *_pxMsg);`
++ 描述：该函数会在IdMsgRole对象处理消息的过程中被调用。开发者需要重写该函数，按照实际的业务需求处理各种消息。
++ 参数：
+  - \_pxRole是当前正在处理消息的对象。
+  - \_pxMsg是消息本身
++ 返回值：业务流程正常执行则返回true。遇到意料之外的系统错误则返回false。
 
 ## 举例
