@@ -11,7 +11,7 @@ customer目录用来放置业务实现，当前放置了一个游戏服务器的
 2. cmake version 3.13.2
 
 ## 编译
-```
+```shell
 mkdir build
 cd build
 cmake ../
@@ -143,7 +143,7 @@ zinx框架是用来处理通用IO，协议和事件的。
 
 ## 举例
 ### 1. 以下代码实现了监听TCP并将客户端发来的信息回传给该客户端
-```
+```c++
 #include "zinx/zinx.h" //框架核心头文件
 
 //定义SampleTcpData类用于处理tcp客户端发来的数据
