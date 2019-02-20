@@ -101,7 +101,10 @@ zinx框架是用来处理通用IO，协议和事件的。
 
 `bool IdMsgRole::register_id_func(int _id, IIdMsgProc *Iproc)`
 + 描述：注册消息类型和其对应的处理接口。该函数应该在IdMsgRole对象创建后调用。
-+ 参数
++ 参数: 
+  - \_id是消息的类型编号
+  - Iproc是处理消息的派生对象。
++ 返回值：true->成功，false->失败。
 
 ### 2. 需要被重写的API
 
@@ -126,6 +129,11 @@ zinx框架是用来处理通用IO，协议和事件的。
   - pstClientAddr是客户端的地址结构封装。
 + 返回值：一般返回true。若返回false，则该TCP监听端口会被从server实例中摘除并关闭。
 
+`bool TcpDataChannel::TcpProcDataIn(RawData * pstData)`
++ 描述：该函数用于读取tcp客户端发来的数据。未重写之前的行为是将原始数据存到pstData中
++ 参数：pstData用于存储读取到的数据
++ 返回值：若正常读取到数据则返回true，否则返回false。返回false后TcpDataChannel对象将会被摘除并析构。
+
 `bool IIdMsgProc::ProcMsg(IdMsgRole *_pxRole, IdMessage *_pxMsg);`
 + 描述：该函数会在IdMsgRole对象处理消息的过程中被调用。开发者需要重写该函数，按照实际的业务需求处理各种消息。
 + 参数：
@@ -134,3 +142,59 @@ zinx框架是用来处理通用IO，协议和事件的。
 + 返回值：业务流程正常执行则返回true。遇到意料之外的系统错误则返回false。
 
 ## 举例
+### 1. 以下代码实现了监听TCP并将客户端发来的信息回传给该客户端
+```
+#include "zinx/zinx.h" //框架核心头文件
+
+//定义SampleTcpData类用于处理tcp客户端发来的数据
+class SampleTcpData:public TcpDataChannel{
+public:
+    //构造函数需要制定数据socket，调用父类构造函数，指定绑定的Aprotocol对象为NULL
+    SampleTcpData(int _iDataFd):TcpDataChannel(_iDataFd, NULL)
+    {
+    }
+    
+    //重写TcpProcDataIn函数，添加回传功能
+    virtual bool TcpProcDataIn(RawData * pstData)
+    {
+        //先调用父类方法读取到数据
+        if (true == TcpDataChannel::TcpProcDataIn(pstData))
+        {
+            //将读取到的数据写回去
+            return writeFd(pstData);
+        }
+    
+        return false;
+    }
+};
+
+//定义SampleTcpLst处理tcp连接
+class SampleTcpLst:public TcpListenChannel{
+public:
+    //调用父类构造函数指定监听端口为6789
+    SampleTcpLst():TcpListenChannel(6789)
+    {
+    }
+    
+    //重写TcpAfterConnection
+    virtual bool TcpAfterConnection(int _iDataFd, struct sockaddr_in * pstClientAddr)
+    {
+        //创建SampleTcpData对象并添加到server实例中
+        return Server::GetServer()->install_channel(new SampleTcpData(_iDataFd));
+    }
+};
+
+int main()
+{
+    //获取server单例并将其初始化
+    Server *pxServer = Server::GetServer();
+    pxServer->init();
+
+    //安装SampleTcpLst对象用于监听tcp，并运行server实例
+    pxServer->install_channel(new SampleTcpLst());
+    pxServer->run();
+
+    return 0;
+}
+
+```
