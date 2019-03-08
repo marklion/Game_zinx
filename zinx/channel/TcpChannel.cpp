@@ -118,6 +118,9 @@ bool TcpDataChannel::init()
 }
 void TcpDataChannel::fini()
 {
+    close(m_fd);
+    delete m_pxProtocol;
+    m_pxProtocol = NULL;
 }
 
 bool TcpDataChannel::readFd(uint32_t _event, RawData * pstData)

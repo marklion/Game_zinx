@@ -26,16 +26,16 @@ bool RawData::AppendData(const RawData *pstData)
 bool RawData::SetData(unsigned char * _pucData, int _iLength)
 {
     bool bRet = false;
-
-    if (NULL != this->pucData)
+    unsigned char *pucTemp = (unsigned char *)calloc(1UL, _iLength);
+    if (NULL != pucTemp)
     {
-        free(this->pucData);
-    }
-
-    this->pucData = (unsigned char *)calloc(1UL, _iLength);
-    if (this->pucData != NULL)
-    {
-        this->iLength = _iLength;
+        memcpy(pucTemp, _pucData, _iLength);
+        if (NULL != pucData)
+        {
+            free(pucData);
+        }
+        pucData = pucTemp;
+        iLength = _iLength;
         bRet = true;
     }
 
