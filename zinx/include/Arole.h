@@ -4,6 +4,11 @@
 class Achannel;
 class Amessage;
 
+/*
+这是一个抽象类，可以绑定最多一个Achannel对象作为输出通道。
+该类负责处理收到的各类Amessage对象，或产生并发送Amessage对象。
+开发者应该核心的业务处理在该类的派生类中实现
+*/
 class Arole{
 public:
     Arole();
