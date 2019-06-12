@@ -1,4 +1,7 @@
 # Game_zinx
+
+**这个项目已经重构，请参考新项目https://github.com/marklion/zinx**
+
 这个软件包含一个服务器框架和一个在线游戏的demo
 
 [golang版本的zinx框架](https://github.com/aceld/zinx)
